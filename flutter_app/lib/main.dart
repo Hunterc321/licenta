@@ -4,7 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:splashscreen/splashscreen.dart';
 import 'package:flutterapp/login_screen.dart';
 void main(){
-  runApp(new MaterialApp(
+  runApp(new MaterialApp(theme: ThemeData(fontFamily: 'Montserrat'),
     home: new MyApp(),
   ));
 }
