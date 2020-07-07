@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:timeline_tile/timeline_tile.dart';
 import 'package:flutterapp/conference/ics_drawer.dart';
 import 'package:flutterapp/conference/program/ics_timeline.dart';
+import 'package:flutterapp/conference/ics_main.dart';
 
 class Program extends StatefulWidget {
   @override
@@ -21,6 +22,7 @@ class _ProgramState extends State<Program> {
     return DefaultTabController(length: 3,
       child: Scaffold(
         appBar: _buildAppBar(context),
+        bottomNavigationBar: _buildBottomNavigationBar(context),
         body: Container(height: 100,
           child: TabBarView(children: <Widget>[
            Container(child: _buildTimelineTile("09:30\nAM", context),height: 10,),
@@ -45,9 +47,6 @@ PreferredSizeWidget _buildAppBar(BuildContext context) {
           child: Container(
               height: 100,
               width: MediaQuery.of(context).size.width / 2.5,
-              decoration: pressedUpcoming
-                  ? boxDecorationNotPressed()
-                  : boxDecorationPressed(),
               child: FlatButton(
 
                   child: Text("Day 1",
@@ -58,9 +57,7 @@ PreferredSizeWidget _buildAppBar(BuildContext context) {
           child: Container(
               height: 100,
               width: MediaQuery.of(context).size.width / 2.5,
-              decoration: pressedUpcoming
-                  ? boxDecorationNotPressed()
-                  : boxDecorationPressed(),
+
               child: FlatButton(
 
                   child: Text("Day 2",
@@ -71,9 +68,6 @@ PreferredSizeWidget _buildAppBar(BuildContext context) {
           child: Container(
               height: 100,
               width: MediaQuery.of(context).size.width / 2.5,
-              decoration: pressedUpcoming
-                  ? boxDecorationNotPressed()
-                  : boxDecorationPressed(),
               child: FlatButton(
 
                   child: Text("Day 3",
@@ -112,7 +106,11 @@ BoxDecoration boxDecorationPressed() {
 TimelineTile _buildTimelineTile(
   String hour,BuildContext context
 ) {
+  var screenHeight = MediaQuery.of(context).size.height;
+  var screenWidth = MediaQuery.of(context).size.width;
   return TimelineTile(
+    bottomLineStyle:LineStyle(width: 10),
+    indicatorStyle: IndicatorStyle(width:screenWidth/16,color: Colors.white),
     alignment: TimelineAlign.manual,
     lineX: 0.2,
     leftChild: Container(height: MediaQuery.of(context).size.height/4,
@@ -136,4 +134,27 @@ TimelineTile _buildTimelineTile(
       
     ),),
   );
+}
+Widget _buildBottomNavigationBar(BuildContext context) {
+  var screenHeight = MediaQuery.of(context).size.height;
+  var screenWidth = MediaQuery.of(context).size.width;
+  return BottomNavigationBar(
+      currentIndex: 1,
+      type: BottomNavigationBarType.fixed,
+      items: [
+        BottomNavigationBarItem(
+            icon: SvgPicture.asset(home), title: Text("Dashboard")),
+        BottomNavigationBarItem(
+            icon: SvgPicture.asset(
+              search,
+            ),
+            title: Text(
+              "Search",
+              style: TextStyle(color: Colors.black),
+            )),
+        BottomNavigationBarItem(
+            icon: SvgPicture.asset(calendar), title: Text("My calendar")),
+        BottomNavigationBarItem(
+            icon: SvgPicture.asset(profile), title: Text("Profile"))
+      ]);
 }
