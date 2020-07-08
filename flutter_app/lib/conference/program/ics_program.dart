@@ -4,6 +4,7 @@ import 'package:timeline_tile/timeline_tile.dart';
 import 'package:flutterapp/conference/ics_drawer.dart';
 import 'package:flutterapp/conference/program/ics_timeline.dart';
 import 'package:flutterapp/conference/ics_main.dart';
+import 'package:flutterapp/conference/program/ics_sessionDetails.dart';
 
 class Program extends StatefulWidget {
   @override
@@ -131,7 +132,12 @@ TimelineTile _buildTimelineTile(
       leading: Text("Salut"),
       title: Text("CUMETRE",style: TextStyle(fontWeight:FontWeight.bold ),),
       subtitle: Text("Ore "),
-      
+      onTap:() => { Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => SessionDetails()),
+      )} ,
+
+
     ),),
   );
 }
