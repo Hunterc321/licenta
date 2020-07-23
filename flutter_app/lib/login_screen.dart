@@ -1,24 +1,197 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutterapp/conference_list.dart';
+import 'package:flutterapp/services/authentication.dart';
+import 'package:flutterapp/primary_button.dart';
 
-class LoginScreen extends StatelessWidget {
-  final Color backgroundColor1;
-  final Color backgroundColor2;
-  final Color highlightColor;
-  final Color foregroundColor;
-  final SvgPicture logo;
+enum FormType { login, register }
 
-  LoginScreen({Key k, this.backgroundColor1, this.backgroundColor2, this.highlightColor, this.foregroundColor, this.logo});
+class LoginScreen extends StatefulWidget {
+   Color backgroundColor1;
+ Color backgroundColor2;
+ Color highlightColor;
+ Color foregroundColor;
+ SvgPicture logo;
+ String title;
+BaseAuth auth;
+ VoidCallback onSignIn;
+  LoginScreen(
+      {Key k,
+        this.title,this.auth,this.onSignIn,
+      this.backgroundColor1,
+      this.backgroundColor2,
+      this.highlightColor,
+      this.foregroundColor,
+      this.logo});
+
+  @override
+  _LoginScreenState createState() => new _LoginScreenState();
+
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  static final formKey = new GlobalKey<FormState>();
+  String _email;
+  String _password;
+  FormType _formType = FormType.login;
+  String _authHint = '';
+  bool validateAndSave() {
+    final form = formKey.currentState;
+    if (form.validate()) {
+      form.save();
+      return true;
+    }
+    return false;
+  }
+
+  void validateAndSubmit() async {
+    if (validateAndSave()) {
+      try {
+        String userId = _formType == FormType.login
+            ? await widget.auth.signIn(_email, _password)
+            : await widget.auth.signUp(_email, _password);
+        setState(() {
+          _authHint = 'Signed In\n\nUser id: $userId';
+        });
+        widget.onSignIn();
+      } catch (e) {
+        setState(() {
+          _authHint = 'Sign In Error\n\n${e.toString()}';
+        });
+        print(e);
+      }
+    } else {
+      setState(() {
+        _authHint = '';
+      });
+    }
+  }
+
+  void moveToRegister() {
+    formKey.currentState.reset();
+    setState(() {
+      _formType = FormType.register;
+      _authHint = '';
+    });
+  }
+
+  void moveToLogin() {
+    formKey.currentState.reset();
+    setState(() {
+      _formType = FormType.login;
+      _authHint = '';
+    });
+  }
+  List<Widget> usernameAndPassword() {
+    return [
+      padded(child: new TextFormField(
+        key: new Key('email'),
+        decoration: new InputDecoration(labelText: 'Email'),
+        autocorrect: false,
+        validator: (val) => val.isEmpty ? 'Email can\'t be empty.' : null,
+        onSaved: (val) => _email = val,
+      )),
+      padded(child: new TextFormField(
+        key: new Key('password'),
+        decoration: new InputDecoration(labelText: 'Password'),
+        obscureText: true,
+        autocorrect: false,
+        validator: (val) => val.isEmpty ? 'Password can\'t be empty.' : null,
+        onSaved: (val) => _password = val,
+      )),
+    ];
+  }
+
+  List<Widget> submitWidgets() {
+    switch (_formType) {
+      case FormType.login:
+        return [
+          new PrimaryButton(
+              key: new Key('login'),
+              text: 'Login',
+              height: 44.0,
+              onPressed: validateAndSubmit
+          ),
+          new FlatButton(
+              key: new Key('need-account'),
+              child: new Text("Need an account? Register"),
+              onPressed: moveToRegister
+          ),
+        ];
+      case FormType.register:
+        return [
+          new PrimaryButton(
+              key: new Key('register'),
+              text: 'Create an account',
+              height: 44.0,
+              onPressed: validateAndSubmit
+          ),
+          new FlatButton(
+              key: new Key('need-login'),
+              child: new Text("Have an account? Login"),
+              onPressed: moveToLogin
+          ),
+        ];
+    }
+    return null;
+  }
+
+  Widget hintText() {
+    return new Container(
+      //height: 80.0,
+        padding: const EdgeInsets.all(32.0),
+        child: new Text(
+            _authHint,
+            key: new Key('hint'),
+            style: new TextStyle(fontSize: 18.0, color: Colors.grey),
+            textAlign: TextAlign.center)
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return
+      Scaffold(
+          appBar: new AppBar(
+            title: new Text("widget.title"),
+          ),
+          backgroundColor: Colors.grey[300],
+          body: new SingleChildScrollView(child: new Container(
+              padding: const EdgeInsets.all(16.0),
+              child: new Column(
+                  children: [
+                    new Card(
+                        child: new Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: <Widget>[
+                              new Container(
+                                  padding: const EdgeInsets.all(16.0),
+                                  child: new Form(
+                                      key: formKey,
+                                      child: new Column(
+                                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                                        children: usernameAndPassword() + submitWidgets(),
+                                      )
+                                  )
+                              ),
+                            ])
+                    ),
+                    hintText()
+                  ]
+              )
+          ))
+      );
+
+    /*Container(
       decoration: new BoxDecoration(
         gradient: new LinearGradient(
           begin: Alignment.centerLeft,
-          end: new Alignment(1.0, 0.0), // 10% of the width, so there are ten blinds.
-          colors: [this.backgroundColor1, this.backgroundColor2], // whitish to gray
+          end: new Alignment(
+              1.0, 0.0), // 10% of the width, so there are ten blinds.
+          colors: [
+            Colors.white,
+            Colors.white
+          ], // whitish to gray
           tileMode: TileMode.repeated, // repeats the gradient over the canvas
         ),
       ),
@@ -34,14 +207,13 @@ class LoginScreen extends StatelessWidget {
                     Container(
                       height: 300.0,
                       width: 300.0,
-                      child: this.logo,
-
+                      child: SvgPicture.asset('asset/logo-login.svg'),
                     ),
                     new Padding(
                       padding: const EdgeInsets.all(16.0),
                       child: new Text(
                         "Timi Lupascu",
-                        style: TextStyle(color: this.foregroundColor),
+                        style: TextStyle(color: Colors.black),
                       ),
                     )
                   ],
@@ -55,7 +227,7 @@ class LoginScreen extends StatelessWidget {
               decoration: BoxDecoration(
                 border: Border(
                   bottom: BorderSide(
-                      color: this.foregroundColor,
+                      color: Colors.black,
                       width: 0.5,
                       style: BorderStyle.solid),
                 ),
@@ -67,10 +239,10 @@ class LoginScreen extends StatelessWidget {
                 children: <Widget>[
                   new Padding(
                     padding:
-                    EdgeInsets.only(top: 10.0, bottom: 10.0, right: 00.0),
+                        EdgeInsets.only(top: 10.0, bottom: 10.0, right: 00.0),
                     child: Icon(
                       Icons.alternate_email,
-                      color: this.foregroundColor,
+                      color: Colors.black,
                     ),
                   ),
                   new Expanded(
@@ -79,7 +251,7 @@ class LoginScreen extends StatelessWidget {
                       decoration: InputDecoration(
                         border: InputBorder.none,
                         hintText: 'email@live.com',
-                        hintStyle: TextStyle(color: this.foregroundColor),
+                        hintStyle: TextStyle(color: Colors.black),
                       ),
                     ),
                   ),
@@ -93,7 +265,7 @@ class LoginScreen extends StatelessWidget {
               decoration: BoxDecoration(
                 border: Border(
                   bottom: BorderSide(
-                      color: this.foregroundColor,
+                      color: Colors.black,
                       width: 0.5,
                       style: BorderStyle.solid),
                 ),
@@ -105,10 +277,10 @@ class LoginScreen extends StatelessWidget {
                 children: <Widget>[
                   new Padding(
                     padding:
-                    EdgeInsets.only(top: 10.0, bottom: 10.0, right: 00.0),
+                        EdgeInsets.only(top: 10.0, bottom: 10.0, right: 00.0),
                     child: Icon(
                       Icons.lock_open,
-                      color: this.foregroundColor,
+                      color: Colors.black,
                     ),
                   ),
                   new Expanded(
@@ -118,7 +290,7 @@ class LoginScreen extends StatelessWidget {
                       decoration: InputDecoration(
                         border: InputBorder.none,
                         hintText: 'password',
-                        hintStyle: TextStyle(color: this.foregroundColor),
+                        hintStyle: TextStyle(color: Colors.black),
                       ),
                     ),
                   ),
@@ -135,26 +307,34 @@ class LoginScreen extends StatelessWidget {
                     child: new FlatButton(
                       padding: const EdgeInsets.symmetric(
                           vertical: 20.0, horizontal: 20.0),
-                      color: this.highlightColor,
-                      onPressed: () => { Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => ConferenceList()),
-                      )},
+                      color: Colors.blue,
+                      onPressed: () => {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ConferenceList()),
+                        )
+                      },
                       child: Text(
                         "Log In",
-                        style: TextStyle(color: this.foregroundColor),
+                        style: TextStyle(color: Colors.black),
                       ),
                     ),
                   ),
                 ],
               ),
             ),
-
-
-
           ],
         ),
       ),
-    );
+    );*/
   }
 }
+Widget padded({Widget child}) {
+  return new Padding(
+    padding: EdgeInsets.symmetric(vertical: 8.0),
+    child: child,
+  );
+}
+
+

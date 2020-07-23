@@ -1,8 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutterapp/conference/ics_main.dart';
+import 'package:firebase_database/firebase_database.dart';
+import 'package:flutterapp/services/authentication.dart';
+import 'package:flutterapp/models/todo.dart';
+
+import 'dart:async';
 
 class ConferenceList extends StatefulWidget {
+
+  ConferenceList({Key key, this.auth, this.userId, this.logoutCallback})
+      : super(key: key);
+  final BaseAuth auth;
+  final VoidCallback logoutCallback;
+  final String userId;
+
   @override
   _ConferenceListState createState() => _ConferenceListState();
 }
@@ -16,6 +28,15 @@ class _ConferenceListState extends State<ConferenceList> {
 
   bool pressedUpcoming = false;
   bool pressedCompleted = false;
+
+  signOut() async {
+    try {
+      await widget.auth.signOut();
+      widget.logoutCallback();
+    } catch (e) {
+      print(e);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +55,12 @@ class _ConferenceListState extends State<ConferenceList> {
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,
         child: Column(
+
           children: <Widget>[
+            FlatButton(
+                child: new Text('Logout',
+                    style: new TextStyle(fontSize: 17.0, color: Colors.white)),
+                onPressed: signOut),
             Padding(
               padding: const EdgeInsets.only(top: 20.0, bottom: 10),
               child: Container(
