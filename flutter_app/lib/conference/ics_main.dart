@@ -44,7 +44,7 @@ class _icsMainState extends State<icsMain> {
           actions: <Widget>[
             Stack(
               children: <Widget>[
-                new IconButton(icon: Icon(Icons.notifications))
+                new SvgPicture.asset("asset/notifications_icon.svg")
               ],
             )
           ],
@@ -52,7 +52,7 @@ class _icsMainState extends State<icsMain> {
         bottomNavigationBar: _buildBottomNavigationBar(context),
         drawer: MyDrawer(),
         backgroundColor: Colors.white,
-        body: Column(
+        body: ListView(
 
           children: <Widget>[
             Stack(
@@ -66,7 +66,7 @@ class _icsMainState extends State<icsMain> {
               ],
 
             ),
-            _buildTable(context),
+            _buildTable(context,screenHeight/7),
           ],
         )
         );
@@ -263,13 +263,13 @@ Widget _buildColumn(BuildContext context) {
 }
 
 
-Widget _buildTable(BuildContext context)
+Widget _buildTable(BuildContext context,var buttonSize)
 {
   var screenHeight = MediaQuery.of(context).size.height;
   var screenWidth = MediaQuery.of(context).size.width;
   return Container(
 
-    padding: EdgeInsets.only(left: screenWidth/20,top: screenHeight/25),
+    padding: EdgeInsets.only(left: screenWidth/20,top: screenHeight/25,bottom: screenHeight/25),
 
     child: Table(
 
@@ -285,10 +285,10 @@ Widget _buildTable(BuildContext context)
                       MaterialPageRoute(builder: (context) => Program()),
                     )
                   },
-                  child: Container(
+                  child: Container(height: buttonSize,
                     decoration: _buildroundItems(),
                     child: Column(
-                      children: <Widget>[
+                      children: <Widget>[ SizedBox(height: screenHeight/40,),
                         SvgPicture.asset(dashProgram),
                         Text("Program")
                       ],
@@ -299,11 +299,11 @@ Widget _buildTable(BuildContext context)
 
               Padding(
                 padding: EdgeInsets.only(right: screenWidth/20),
-                child: Container(
+                child: Container(height: buttonSize,
 
                   decoration: _buildroundItems(),
                   child: Column(
-                    children: <Widget>[
+                    children: <Widget>[SizedBox(height: screenHeight/40,),
                       SvgPicture.asset(dashSpeakers),
                       Text("Speakers")
                     ],
@@ -312,11 +312,11 @@ Widget _buildTable(BuildContext context)
               ),
               Padding(
                 padding:  EdgeInsets.only(right: screenWidth/25),
-                child: Container(
+                child: Container(height: buttonSize,
 
                   decoration: _buildroundItems(),
                   child: Column(
-                    children: <Widget>[
+                    children: <Widget>[SizedBox(height: screenHeight/40,),
                       SvgPicture.asset(dashPapers),
                       Text("Papers")
                     ],
@@ -329,10 +329,10 @@ Widget _buildTable(BuildContext context)
         TableRow(children: [
           Padding(
             padding: EdgeInsets.only(right: screenWidth/20,bottom: screenWidth/20),
-            child: Container(
+            child: Container(height: buttonSize,
               decoration: _buildroundItems(),
               child: Column(
-                children: <Widget>[
+                children: <Widget>[SizedBox(height: screenHeight/40,),
                   SvgPicture.asset(dashNewsFeed),
                   Text("News Feed")
                 ],
@@ -342,10 +342,10 @@ Widget _buildTable(BuildContext context)
 
           Padding(
             padding: EdgeInsets.only(right: screenWidth/20),
-            child: Container(
+            child: Container(height: buttonSize,
               decoration: _buildroundItems(),
               child: Column(
-                children: <Widget>[
+                children: <Widget>[SizedBox(height: screenHeight/40,),
                   SvgPicture.asset(dashCalendar),
                   Text("My Calendar")
                 ],
@@ -354,10 +354,10 @@ Widget _buildTable(BuildContext context)
           ),
           Padding(
             padding:  EdgeInsets.only(right: screenWidth/25),
-            child: Container(
+            child: Container(height: buttonSize,
               decoration: _buildroundItems(),
               child: Column(
-                children: <Widget>[
+                children: <Widget>[SizedBox(height: screenHeight/40,),
                   SvgPicture.asset(dashParticipants),
                   Text("Participants")
                 ],
@@ -371,10 +371,10 @@ Widget _buildTable(BuildContext context)
         TableRow(children: [
           Padding(
             padding: EdgeInsets.only(right: screenWidth/20,bottom: screenWidth/20),
-            child: Container(
+            child: Container(height: buttonSize,
               decoration: _buildroundItems(),
               child: Column(
-                children: <Widget>[
+                children: <Widget>[SizedBox(height: screenHeight/40,),
                   SvgPicture.asset(dashAbout),
                   Text("About ICSTCC")
                 ],
@@ -384,10 +384,10 @@ Widget _buildTable(BuildContext context)
 
           Padding(
             padding: EdgeInsets.only(right: screenWidth/20),
-            child: Container(
+            child: Container(height: buttonSize,
               decoration: _buildroundItems(),
               child: Column(
-                children: <Widget>[
+                children: <Widget>[SizedBox(height: screenHeight/40,),
                   SvgPicture.asset(dashContact),
                   Text("Contact Us")
                 ],
@@ -396,10 +396,10 @@ Widget _buildTable(BuildContext context)
           ),
           Padding(
             padding: EdgeInsets.only(right: screenWidth/25),
-            child: Container(
+            child: Container(height: buttonSize,
               decoration: _buildroundItems(),
               child: Column(
-                children: <Widget>[
+                children: <Widget>[SizedBox(height: screenHeight/40,),
                   SvgPicture.asset(dashProgram),
                   Text("NO DATA")
                 ],
@@ -411,11 +411,11 @@ Widget _buildTable(BuildContext context)
         TableRow(children: [
           Padding(
             padding: EdgeInsets.only(right: screenWidth/20),
-            child: Container(
+            child: Container(height: buttonSize,
 
               decoration: _buildroundItems(),
               child: Column(
-                children: <Widget>[
+                children: <Widget>[SizedBox(height: screenHeight/40,),
                   SvgPicture.asset(dashTickets),
                   Text("Scan Tickets")
                 ],
@@ -425,10 +425,10 @@ Widget _buildTable(BuildContext context)
 
           Padding(
             padding: EdgeInsets.only(right: screenWidth/20),
-            child: Container(
+            child: Container(height: buttonSize,
               decoration: _buildroundItems(),
               child: Column(
-                children: <Widget>[
+                children: <Widget>[SizedBox(height: screenHeight/40,),
                   SvgPicture.asset(dashAnalytics),
                   Text("Analytics")
                 ],
@@ -437,10 +437,10 @@ Widget _buildTable(BuildContext context)
           ),
           Padding(
             padding: EdgeInsets.only(right: screenWidth/25),
-            child: Container(
+            child: Container(height: buttonSize,
               decoration: _buildroundItems(),
               child: Column(
-                children: <Widget>[
+                children: <Widget>[SizedBox(height: screenHeight/40,),
                   SvgPicture.asset(dashWritePost),
                   Text("Write Post")
                 ],

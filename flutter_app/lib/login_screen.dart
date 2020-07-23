@@ -78,7 +78,7 @@ class LoginScreen extends StatelessWidget {
                       textAlign: TextAlign.center,
                       decoration: InputDecoration(
                         border: InputBorder.none,
-                        hintText: 'Tudoran@live.com',
+                        hintText: 'email@live.com',
                         hintStyle: TextStyle(color: this.foregroundColor),
                       ),
                     ),
@@ -117,7 +117,7 @@ class LoginScreen extends StatelessWidget {
                       textAlign: TextAlign.center,
                       decoration: InputDecoration(
                         border: InputBorder.none,
-                        hintText: 'pass',
+                        hintText: 'password',
                         hintStyle: TextStyle(color: this.foregroundColor),
                       ),
                     ),
@@ -149,6 +149,7 @@ class LoginScreen extends StatelessWidget {
                 ],
               ),
             ),
+
 
 
           ],

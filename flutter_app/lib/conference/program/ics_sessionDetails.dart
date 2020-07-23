@@ -48,7 +48,7 @@ class _SessionDetailsState extends State<SessionDetails> {
               children: <Widget>[
                 Container(
                   height: screenHeight / 4,
-                  width: screenWidth,
+                  width: screenWidth+100,
                   decoration: BoxDecoration(
                       gradient: LinearGradient(colors: [colorPink, colorBlue])),
                 ),

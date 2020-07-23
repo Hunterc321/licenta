@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "82315463922",
+    "firebase_url": "https://icstcc.firebaseio.com",
+    "project_id": "icstcc",
+    "storage_bucket": "icstcc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:82315463922:android:6937bbd12034b7602b546b",
+        "android_client_info": {
+          "package_name": "com.example.flutterapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "82315463922-nmvl9fgdrkmca229mhc5lutmbcin8530.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.flutterapp",
+            "certificate_hash": "ba0a559bdd9c4ba839796d95f7eadda120c891a5"
+          }
+        },
+        {
+          "client_id": "82315463922-5jf1segu4a98n9carm4os656sb6rrhds.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAm3PWFFwN3zBzl_nMwK9VQsn-VZXq6rjs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "82315463922-5jf1segu4a98n9carm4os656sb6rrhds.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

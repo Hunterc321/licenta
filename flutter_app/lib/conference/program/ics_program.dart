@@ -84,11 +84,11 @@ PreferredSizeWidget _buildAppBar(BuildContext context) {
     ),
     title: Text(
       "Program",
-      style: TextStyle(color: Colors.black),
+      style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold),
     ),
     actions: <Widget>[
       Stack(
-        children: <Widget>[new IconButton(icon: Icon(Icons.notifications))],
+        children: <Widget>[new SvgPicture.asset("asset/notifications_icon.svg")],
       )
     ],
   );
