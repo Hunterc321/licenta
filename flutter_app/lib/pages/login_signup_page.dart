@@ -201,7 +201,7 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
 
   Widget showSignUp(BuildContext context)
   {
-    return Container(padding: EdgeInsets.only(left:MediaQuery.of(context).size.width/3.2,top:MediaQuery.of(context).size.height/18  ),child: Text(_isLoginForm ? 'Sign Up' : 'Sign In',style: TextStyle(fontFamily:'Montserrat',color:colorBlue,fontSize: MediaQuery.of(context).size.height/23,fontWeight: FontWeight.w800 )));
+    return Container(padding: EdgeInsets.only(left:MediaQuery.of(context).size.width/3.2,top:MediaQuery.of(context).size.height/18  ),child: Text(_isLoginForm ? 'Sign In' : 'Sign Up',style: TextStyle(fontFamily:'Montserrat',color:colorBlue,fontSize: MediaQuery.of(context).size.height/23,fontWeight: FontWeight.w800 )));
   }
 
   Widget showWelcomeText(BuildContext context)
@@ -253,29 +253,24 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
   Widget showSecondaryButton() {
     return new FlatButton(
         child: new Text(
-            _isLoginForm ? 'Create an account' : 'Have an account? Sign in',
-            style: new TextStyle(fontSize: 18.0, fontWeight: FontWeight.w300)),
+            _isLoginForm ? 'Create an account' : 'Have an account? Sign In',
+            style: new TextStyle(fontSize: 18.0, fontWeight: FontWeight.w500)),
         onPressed: toggleFormMode);
   }
+
+
 
   Widget showPrimaryButton() {
     return new Padding(
         padding: EdgeInsets.fromLTRB(0.0, 45.0, 0.0, 0.0),
-        child: Container(
-          
-          height: 40.0,
+        child: Container(decoration: BoxDecoration(gradient:LinearGradient(colors: [colorPink, colorBlue]),borderRadius: BorderRadius.circular(30.0) ),
 
 
-          child: new RaisedButton(
-            elevation: 1.0,
-            shape: new RoundedRectangleBorder(
-                borderRadius: new BorderRadius.circular(30.0)),
 
-            child: Container(decoration: BoxDecoration(
-                gradient: LinearGradient(colors: [colorPink, colorBlue])),
-              child: new Text(_isLoginForm ? 'Login' : 'Create account',
-                  style: new TextStyle(fontSize: 20.0, color: Colors.white)),
-            ),
+          child: new FlatButton(
+
+            child: new Text(_isLoginForm ? 'Login' : 'Create account',
+                style: new TextStyle(fontSize: 20.0, color: Colors.white)),
             onPressed: validateAndSubmit,
           ),
         ));
