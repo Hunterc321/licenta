@@ -10,6 +10,10 @@ import 'package:flutterapp/services/authentication.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutterapp/conference_list.dart';
 
+const colorBlue = const Color.fromRGBO(34, 191, 213, 1);
+const colorPink = const Color.fromRGBO(92, 55, 129, 1);
+const colorGrey = const Color.fromRGBO(198, 198, 198, 1);
+
 class LoginSignupPage extends StatefulWidget {
   LoginSignupPage({this.auth, this.loginCallback});
 
@@ -99,9 +103,9 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-        appBar: new AppBar(
-          title: new Text('Flutter login demo'),
-        ),
+//        appBar: new AppBar(
+//          title: new Text('Flutter login demo'),
+//        ),
         body: Stack(
           children: <Widget>[
             _showForm(),
@@ -152,6 +156,8 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
             shrinkWrap: true,
             children: <Widget>[
               showLogo(),
+              showSignUp(context),
+              showWelcomeText(context),
               showEmailInput(),
               showPasswordInput(),
               showPrimaryButton(),
@@ -187,15 +193,28 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
         child: CircleAvatar(
           backgroundColor: Colors.transparent,
           radius: 48.0,
-          child: Image.asset('assets/flutter-icon.png'),
+          child: SvgPicture.asset('asset/logo-login.svg'),
         ),
       ),
     );
   }
 
+  Widget showSignUp(BuildContext context)
+  {
+    return Container(padding: EdgeInsets.only(left:MediaQuery.of(context).size.width/3.2,top:MediaQuery.of(context).size.height/18  ),child: Text(_isLoginForm ? 'Sign Up' : 'Sign In',style: TextStyle(fontFamily:'Montserrat',color:colorBlue,fontSize: MediaQuery.of(context).size.height/23,fontWeight: FontWeight.w800 )));
+  }
+
+  Widget showWelcomeText(BuildContext context)
+  {
+    return Padding(
+      padding:  EdgeInsets.only(top:MediaQuery.of(context).size.height/50 ),
+      child: Text("Welcome to the ICSTCC App, your digital passport for the science conference.",style: TextStyle(fontSize: MediaQuery.of(context).size.height/40,color: Colors.grey[700]),textAlign: TextAlign.center,),
+    );
+  }
+
   Widget showEmailInput() {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(0.0, 100.0, 0.0, 0.0),
+      padding: EdgeInsets.only(top:MediaQuery.of(context).size.height/20 ),
       child: new TextFormField(
         maxLines: 1,
         keyboardType: TextInputType.emailAddress,
@@ -242,15 +261,21 @@ class _LoginSignupPageState extends State<LoginSignupPage> {
   Widget showPrimaryButton() {
     return new Padding(
         padding: EdgeInsets.fromLTRB(0.0, 45.0, 0.0, 0.0),
-        child: SizedBox(
+        child: Container(
+          
           height: 40.0,
+
+
           child: new RaisedButton(
-            elevation: 5.0,
+            elevation: 1.0,
             shape: new RoundedRectangleBorder(
                 borderRadius: new BorderRadius.circular(30.0)),
-            color: Colors.blue,
-            child: new Text(_isLoginForm ? 'Login' : 'Create account',
-                style: new TextStyle(fontSize: 20.0, color: Colors.white)),
+
+            child: Container(decoration: BoxDecoration(
+                gradient: LinearGradient(colors: [colorPink, colorBlue])),
+              child: new Text(_isLoginForm ? 'Login' : 'Create account',
+                  style: new TextStyle(fontSize: 20.0, color: Colors.white)),
+            ),
             onPressed: validateAndSubmit,
           ),
         ));
